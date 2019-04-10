@@ -1,2 +1,3 @@
-# extractPDF
-# This program ingests a resume (PDF file) and will search for specified skills.
+<p align="center">
+  <img src="https://github.com/bluesNbrews/SkillSearchEngine/blob/master/titleImage.png" title="skillSearchEngine">
+</p>
