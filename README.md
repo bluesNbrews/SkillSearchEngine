@@ -4,7 +4,7 @@
 
 Creator: Steven Williams
 
-This project can be imported using Eclipse. File -> Import -> Git -> Clone URI
+This project can be imported using Eclipse. File -> Import -> Git -> Clone URI.
 Apache PDFBox 2.0.14 is used and the dependencies can be found here: https://pdfbox.apache.org/download.cgi
 
 1) When running the application, the following GUI application will appear:
