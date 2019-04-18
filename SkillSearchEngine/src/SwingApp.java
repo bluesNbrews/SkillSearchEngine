@@ -23,16 +23,16 @@ public class SwingApp {
 	//File location of resume as specified by the user
 	private String resumePath = null;
 	
-	//Global object to perform search logic
-	PDFParser myPDF = new PDFParser(resumePath);
-	
 	//User input for strings to search for
 	private String searchSkills = null;
 	
 	//Results of search
 	private String searchResults = null;
+	
+	//Global object to perform search logic
+	PDFParser myPDF = new PDFParser(resumePath);
 
-	/**
+	/*
 	 * Create the application.
 	 */
 	
@@ -82,17 +82,18 @@ public class SwingApp {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				JFileChooser chooser = new JFileChooser();
-			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			        "PDF Files", "pdf");
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
 			    chooser.setFileFilter(filter);
 			    Component parent = null;
 				int returnVal = chooser.showOpenDialog(parent);
 			    
 				if(returnVal == JFileChooser.APPROVE_OPTION) {
-			       System.out.println("You chose to open this file: " +
-			    		chooser.getSelectedFile().getName());
-			    }
+			       
+					System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+			    
+				}
 			    
 				//Change the default text of "File Path Displays Here" to the actual file location
 				//Set resume path variable and create object with resume path variable
@@ -151,9 +152,8 @@ public class SwingApp {
 				} catch (IOException e1) {
 					
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				
-				}
+					e1.printStackTrace();		
+				} 
 			}
 		});
 		

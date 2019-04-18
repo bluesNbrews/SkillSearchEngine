@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -9,8 +10,22 @@ public class PDFParser {
 	
 	String theResumePath;
 	
-	public PDFParser(String rp){
-		this.theResumePath = rp;
+	public PDFParser(String theResumePath){
+		this.theResumePath = theResumePath;
+	}
+	
+	public PDFParser() {
+		theResumePath = null;
+	}
+	
+	//Not used, but for best practice
+	public void setResumePath(String theResumePath) {
+		this.theResumePath = theResumePath;
+	}
+	
+	//Not used, but for best practice
+	public String getResumePath() {
+		return theResumePath;
 	}
 	
 	public String parsePDF(String searchSkills) throws InvalidPasswordException, IOException {
@@ -29,15 +44,33 @@ public class PDFParser {
 		String theSearchSkills = searchSkills; 
 		String[] skills = theSearchSkills.split(delimeterComma);	
 		String results = "The following skills have been found: ";	
+		String userEmail = "mstevenwilliams@gmail.com";
+		String userSkill = null;
+		
+		DataPersistence database = new DataPersistence();
 		
 		//Iterate through space delimited string and search for keywords. If found, print them out. 
-		for(int i = 0; i < resumeTokens.length; i++) {
+		for(int i = 0; i < resumeTokens.length; i++) {	
+			
 			for(int j = 0; j < skills.length; j++) {
+				
 				if(resumeTokens[i].contains(skills[j])) {
-					//System.out.println("Found the skill " + skills[j] + ".");
+					userSkill = skills[j];
+					System.out.println("Found the skill " + skills[j] + ".");
 					results += skills[j] + " ";
+					i = (resumeTokens.length + 1);
+					j = (skills.length + 1);
 				}
+				
 			}
+			
+		}
+		
+		try {
+			database.insertData(userEmail, userSkill);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		//Close the loaded resume
@@ -45,6 +78,6 @@ public class PDFParser {
 		
 		//Return search results
 		return results;
-	
 	}
+	
 }
