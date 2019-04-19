@@ -64,7 +64,7 @@ public class SwingApp {
 		lblGetPdf.setBounds(16, 52, 287, 30);
 		frame.getContentPane().add(lblGetPdf);
 		
-		JLabel lblEnterSkills = new JLabel("2) Provide Skills To Find ------>");
+		JLabel lblEnterSkills = new JLabel("2) Provide Skill To Find ------>");
 		lblEnterSkills.setBounds(16, 127, 213, 30);
 		frame.getContentPane().add(lblEnterSkills);
 		
@@ -124,7 +124,7 @@ public class SwingApp {
 			}
 		});
 		
-		txtEnterSkillsHere.setText("Ex: Python,SQL,Java");
+		txtEnterSkillsHere.setText("Ex: Python");
 		txtEnterSkillsHere.setBounds(232, 129, 185, 26);
 		frame.getContentPane().add(txtEnterSkillsHere);
 		txtEnterSkillsHere.setColumns(10);
@@ -145,19 +145,21 @@ public class SwingApp {
 				
 				//Go ahead and call the search logic and pass through the user input for search Strings.
 				try {
-					
+					//Parse pdf with user input
 					searchResults = myPDF.parsePDF(searchSkills);
 					txtResultsDisplayHere.setText(searchResults);
 				
 				} catch (IOException e1) {
 					
 					// TODO Auto-generated catch block
-					e1.printStackTrace();		
+					e1.printStackTrace();
+					
 				} 
 			}
 		});
 		
 		btnNewButton.setBounds(300, 180, 117, 29);
 		frame.getContentPane().add(btnNewButton);
+		
 	}
 }

@@ -3,17 +3,14 @@ import org.postgresql.Driver;
 
 public class DataPersistence {
 	
+	//Refers to email and skills columns defined in the applicant table below
 	String userEmail;
 	String userSkill;
 	
+	//Constructors, get, and set methods for best practice
 	public DataPersistence(String userEmail, String userSkill) {
 		this.userEmail = userEmail;
 		this.userSkill = userSkill;
-	}
-	
-	public DataPersistence() {
-		userEmail = null;
-		userSkill = null;
 	}
 	
 	public void setEmail(String userEmail) {
@@ -44,18 +41,42 @@ public class DataPersistence {
 	 *      email varchar(256) REFERENCES person, skill varchar(32)); 
 	 */
 	
-	public void insertData(String uE, String uS) throws SQLException {
+	public void insertData(DataPersistence db) throws SQLException {
 		
-		//
+		//Connect to local POSTGRESQL server
+		//Future QA item, implement ssl
 		String url = "jdbc:postgresql://localhost/?user=stevenwilliams&password=password123&ssl=false";
 		Connection conn = DriverManager.getConnection(url);
 		
-		//
+		//Insert email and skill parameters into database. Cleanup (close connections) afterwards.
 		PreparedStatement st = conn.prepareStatement("INSERT INTO APPLICANT (EMAIL, SKILL) VALUES (?, ?)");
-		st.setString(1, uE);
-		st.setString(2, uS);
+		
+		st.setString(1, db.getEmail());
+		st.setString(2, db.getSkill());
+		
 		st.executeUpdate();
 		st.close();
+	}
+	
+	public String retreiveData(DataPersistence db) throws SQLException {
+		
+		//Connect to local POSTGRESQL server
+		//Future QA item, implement ssl
+		String url = "jdbc:postgresql://localhost/?user=stevenwilliams&password=password123&ssl=false";
+		Connection conn = DriverManager.getConnection(url);
+		String results = "The following skills have been found: ";
+		
+		PreparedStatement st = conn.prepareStatement("SELECT * FROM APPLICANT WHERE email = ?");
+		st.setString(1, db.getEmail());
+		ResultSet rs = st.executeQuery();
+		while (rs.next())
+		{
+		    results += rs.getString(2) + " ";
+		}
+		rs.close();
+		st.close();
+		
+		return results;
 	}
 		
 }

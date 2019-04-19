@@ -28,7 +28,7 @@ public class PDFParser {
 		return theResumePath;
 	}
 	
-	public String parsePDF(String searchSkills) throws InvalidPasswordException, IOException {
+	public String parsePDF(String searchSkillsParam) throws InvalidPasswordException, IOException {
 		//Get all text from specified PDF into one string
 		File file = new File(theResumePath);
 		PDDocument document = PDDocument.load(file);
@@ -41,13 +41,11 @@ public class PDFParser {
 		String delimeterSpace = "[ ]+";
 		String delimeterComma = "[,]+";
 		String[] resumeTokens = resume.split(delimeterSpace);
-		String theSearchSkills = searchSkills; 
-		String[] skills = theSearchSkills.split(delimeterComma);	
-		String results = "The following skills have been found: ";	
+		String searchSkills = searchSkillsParam; 
+		String[] skills = searchSkills.split(delimeterComma);	
+		String results = null;	
 		String userEmail = "mstevenwilliams@gmail.com";
-		String userSkill = null;
-		
-		DataPersistence database = new DataPersistence();
+		String userSkills = null;
 		
 		//Iterate through space delimited string and search for keywords. If found, print them out. 
 		for(int i = 0; i < resumeTokens.length; i++) {	
@@ -55,28 +53,42 @@ public class PDFParser {
 			for(int j = 0; j < skills.length; j++) {
 				
 				if(resumeTokens[i].contains(skills[j])) {
-					userSkill = skills[j];
+					//userSkills += skills[j] + " ";
 					System.out.println("Found the skill " + skills[j] + ".");
-					results += skills[j] + " ";
-					i = (resumeTokens.length + 1);
-					j = (skills.length + 1);
+					//results += skills[j] + " ";
+					userSkills = skills[j];
+					i = resumeTokens.length;
+					j = skills.length;
+					
 				}
 				
 			}
 			
 		}
 		
-		try {
-			database.insertData(userEmail, userSkill);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//Create database object initialized with email and skill
+		DataPersistence database = new DataPersistence(userEmail,userSkills);
+		
+		//Insert database info into POSTGRESQL local server
+		if (userSkills != null) {
+			try {
+				database.insertData(database);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		//Close the loaded resume
 		document.close();
 		
 		//Return search results
+		try {
+			results = database.retreiveData(database);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return results;
 	}
 	
