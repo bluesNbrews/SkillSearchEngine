@@ -26,7 +26,7 @@ public class SwingApp {
 	//User input for strings to search for
 	private String searchSkills = null;
 	
-	//Results of search
+	//Results of search, output for GUI
 	private String searchResults = null;
 	
 	//Global object to perform search logic
@@ -145,6 +145,7 @@ public class SwingApp {
 				
 				//Go ahead and call the search logic and pass through the user input for search Strings.
 				try {
+					
 					//Parse pdf with user input
 					searchResults = myPDF.parsePDF(searchSkills);
 					txtResultsDisplayHere.setText(searchResults);

@@ -28,7 +28,8 @@ public class PDFParser {
 		return theResumePath;
 	}
 	
-	public String parsePDF(String searchSkillsParam) throws InvalidPasswordException, IOException {
+	public String parsePDF(String searchSkillsParam) throws InvalidPasswordException, IOException{
+		
 		//Get all text from specified PDF into one string
 		File file = new File(theResumePath);
 		PDDocument document = PDDocument.load(file);
@@ -89,7 +90,6 @@ public class PDFParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return results;
+		return results;	
 	}
-	
 }
