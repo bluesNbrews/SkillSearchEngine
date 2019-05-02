@@ -1,5 +1,5 @@
 import java.sql.*;
-import org.postgresql.Driver;
+//import org.postgresql.Driver;
 
 public class DataPersistence {
 	
@@ -44,7 +44,6 @@ public class DataPersistence {
 	public void insertData(DataPersistence db) throws SQLException {
 		
 		//Connect to local POSTGRESQL server
-		//Future QA item, implement ssl
 		String url = "jdbc:postgresql://localhost/?user=stevenwilliams&password=password123&ssl=false";
 		Connection conn = DriverManager.getConnection(url);
 		
@@ -61,7 +60,6 @@ public class DataPersistence {
 	public String retreiveData(DataPersistence db) throws SQLException {
 		
 		//Connect to local POSTGRESQL server
-		//Future QA item, implement ssl
 		String url = "jdbc:postgresql://localhost/?user=stevenwilliams&password=password123&ssl=false";
 		Connection conn = DriverManager.getConnection(url);
 		String results = "The following skills have been found: ";

@@ -1,12 +1,10 @@
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 public class PDFParser {
@@ -31,7 +29,7 @@ public class PDFParser {
 		return theResumePath;
 	}
 	
-	public String parsePDF(String searchSkillsParam) throws InvalidPasswordException, IOException{
+	public String parsePDF(String searchSkillsParam) throws IOException{
 		
 		//Get all text from specified PDF into one string
 		File file = new File(theResumePath);
@@ -39,48 +37,24 @@ public class PDFParser {
 		PDFTextStripper pdfstripper = new PDFTextStripper();	
 		String resume = pdfstripper.getText(document);
 		
-		//Split resume string by spaces and create keywords to look for
-		//Split user input by commas and create keywords to look for
-		//Create string of results to return
-		String delimeterSpace = "[ ]+";
-		String delimeterComma = "[,]+";
-		
-		//String[] resumeTokens = resume.split(delimeterSpace);
-		//StringTokenizer st = new StringTokenizer(resume, " ,;:-&)(•\r\n\t\f\b");
+		//Split resume string by delimiters below
+		//Create regex pattern to find email address
 		String[] resumeTokens = resume.split(" |,|;|:|-|&|•|\r|\n|\t|\f|\b");
-		Pattern pattern = Pattern.compile("^(.+)@(.+)$");
-		
-		String searchSkills = searchSkillsParam; 
-		String[] skills = searchSkills.split(delimeterComma);
+		Pattern patternEmail = Pattern.compile("^(.+)@(.+)$");
 		
 		String results = null;	
 		String userEmail = null;
 		String userSkills = null;
 		
 		for(String s : resumeTokens) {
-			Matcher matcher = pattern.matcher(s);
-			if(matcher.matches()) {
+			Matcher matcherEmail = patternEmail.matcher(s);
+			if(matcherEmail.matches()) {
 				userEmail = s;
 			}
-		}
-
-		//Iterate through space delimited string and search for keywords. If found, print them out. 
-		for(int i = 0; i < resumeTokens.length; i++) {	
-			
-			for(int j = 0; j < skills.length; j++) {
-		        
-				if(resumeTokens[i].contains(skills[j])) {
-					//userSkills += skills[j] + " ";
-					System.out.println("Found the skill " + skills[j] + ".");
-					//results += skills[j] + " ";
-					userSkills = skills[j];
-					i = resumeTokens.length;
-					j = skills.length;
-					
-				}
-				
+			if(s.equals(searchSkillsParam)) {
+				userSkills = s;
+				System.out.println("Found skill: " + userSkills);
 			}
-			
 		}
 		
 		//Create database object initialized with email and skill
