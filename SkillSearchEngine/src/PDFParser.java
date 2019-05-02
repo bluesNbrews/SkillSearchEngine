@@ -1,6 +1,9 @@
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -41,18 +44,31 @@ public class PDFParser {
 		//Create string of results to return
 		String delimeterSpace = "[ ]+";
 		String delimeterComma = "[,]+";
-		String[] resumeTokens = resume.split(delimeterSpace);
+		
+		//String[] resumeTokens = resume.split(delimeterSpace);
+		//StringTokenizer st = new StringTokenizer(resume, " ,;:-&)(•\r\n\t\f\b");
+		String[] resumeTokens = resume.split(" |,|;|:|-|&|•|\r|\n|\t|\f|\b");
+		Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+		
 		String searchSkills = searchSkillsParam; 
-		String[] skills = searchSkills.split(delimeterComma);	
+		String[] skills = searchSkills.split(delimeterComma);
+		
 		String results = null;	
-		String userEmail = "mstevenwilliams@gmail.com";
+		String userEmail = null;
 		String userSkills = null;
 		
+		for(String s : resumeTokens) {
+			Matcher matcher = pattern.matcher(s);
+			if(matcher.matches()) {
+				userEmail = s;
+			}
+		}
+
 		//Iterate through space delimited string and search for keywords. If found, print them out. 
 		for(int i = 0; i < resumeTokens.length; i++) {	
 			
 			for(int j = 0; j < skills.length; j++) {
-				
+		        
 				if(resumeTokens[i].contains(skills[j])) {
 					//userSkills += skills[j] + " ";
 					System.out.println("Found the skill " + skills[j] + ".");
@@ -90,6 +106,6 @@ public class PDFParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return results;	
+		return results;
 	}
 }
