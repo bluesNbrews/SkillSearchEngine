@@ -9,8 +9,10 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 public class PDFParser {
 	
+	//Resume file path as defined by the user
 	String theResumePath;
 	
+	//Constructor, get, and set methods for best practice
 	public PDFParser(String theResumePath){
 		this.theResumePath = theResumePath;
 	}
@@ -19,12 +21,10 @@ public class PDFParser {
 		theResumePath = null;
 	}
 	
-	//Not used, but for best practice
 	public void setResumePath(String theResumePath) {
 		this.theResumePath = theResumePath;
 	}
 	
-	//Not used, but for best practice
 	public String getResumePath() {
 		return theResumePath;
 	}
@@ -46,6 +46,11 @@ public class PDFParser {
 		String userEmail = null;
 		String userSkills = null;
 		
+		//Manually set first and last name. Assuming they are the first and third words in the resume, respectively.
+		String firstName = resumeTokens[0];
+		String lastName = resumeTokens[2];
+		
+		//Find email and skill
 		for(String s : resumeTokens) {
 			Matcher matcherEmail = patternEmail.matcher(s);
 			if(matcherEmail.matches()) {
@@ -58,15 +63,23 @@ public class PDFParser {
 		}
 		
 		//Create database object initialized with email and skill
-		DataPersistence database = new DataPersistence(userEmail,userSkills);
+		DataPersistence database = new DataPersistence(userEmail,userSkills,firstName,lastName);
 		
-		//Insert database info into POSTGRESQL local server
+		//Create POSTGRESQL tables
+		try {
+			database.createDB(database);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//Insert into said tables
 		if (userSkills != null) {
 			try {
 				database.insertData(database);
-			} catch (SQLException e) {
+			} catch (SQLException e2) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e2.printStackTrace();
 			}
 		}
 		
@@ -76,10 +89,21 @@ public class PDFParser {
 		//Return search results
 		try {
 			results = database.retreiveData(database);
-		} catch (SQLException e) {
+		} catch (SQLException e3) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e3.printStackTrace();
 		}
+
+		//Delete data and tables
+		try {
+			database.cleanUpDB(database);
+		} catch (SQLException e4) {
+			// TODO Auto-generated catch block
+			e4.printStackTrace();
+		}
+		
+		//Return skills to GUI
 		return results;
+		
 	}
 }
