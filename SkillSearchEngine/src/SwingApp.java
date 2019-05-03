@@ -64,7 +64,7 @@ public class SwingApp {
 		lblGetPdf.setBounds(16, 52, 287, 30);
 		frame.getContentPane().add(lblGetPdf);
 		
-		JLabel lblEnterSkills = new JLabel("2) Provide Skill To Find ------>");
+		JLabel lblEnterSkills = new JLabel("2) Provide Skills To Find ------>");
 		lblEnterSkills.setBounds(16, 127, 213, 30);
 		frame.getContentPane().add(lblEnterSkills);
 		
@@ -124,7 +124,7 @@ public class SwingApp {
 			}
 		});
 		
-		txtEnterSkillsHere.setText("Ex: Python");
+		txtEnterSkillsHere.setText("Ex: Python,Ruby,Java");
 		txtEnterSkillsHere.setBounds(232, 129, 185, 26);
 		frame.getContentPane().add(txtEnterSkillsHere);
 		txtEnterSkillsHere.setColumns(10);

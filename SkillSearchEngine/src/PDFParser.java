@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,13 +43,17 @@ public class PDFParser {
 		String[] resumeTokens = resume.split(" |,|;|:|-|&|•|\r|\n|\t|\f|\b");
 		Pattern patternEmail = Pattern.compile("^(.+)@(.+)$");
 		
-		String results = null;	
+		//Results are passed to GUI, userEmail and userSkills are passed to DataPersistence class
+		String results = null;
 		String userEmail = null;
-		String userSkills = null;
+		String[] userSkills = searchSkillsParam.split(",");
 		
 		//Manually set first and last name. Assuming they are the first and third words in the resume, respectively.
 		String firstName = resumeTokens[0];
 		String lastName = resumeTokens[2];
+		
+		//Variable to check if DB is empty
+		boolean DBEmpty = false;
 		
 		//Find email and skill
 		for(String s : resumeTokens) {
@@ -56,11 +61,10 @@ public class PDFParser {
 			if(matcherEmail.matches()) {
 				userEmail = s;
 			}
-			if(s.equals(searchSkillsParam)) {
-				userSkills = s;
-				System.out.println("Found skill: " + userSkills);
+			if(Arrays.asList(userSkills).contains(s)) {
+				System.out.println(s);
 			}
-		}
+		}		
 		
 		//Create database object initialized with email and skill
 		DataPersistence database = new DataPersistence(userEmail,userSkills,firstName,lastName);
@@ -68,15 +72,23 @@ public class PDFParser {
 		//Create POSTGRESQL tables
 		try {
 			database.createDB(database);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Check if DB is empty to avoid repetitive inserts into applicant table (skills)
+		try {
+			DBEmpty = database.checkDBEmpty();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		//Insert into said tables
-		if (userSkills != null) {
+		//Insert all data into said tables
+		if (userSkills != null && DBEmpty == true) {
 			try {
-				database.insertData(database);
+				database.insertAllData(database, resumeTokens);
 			} catch (SQLException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
@@ -93,7 +105,8 @@ public class PDFParser {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
 		}
-
+		
+		/*
 		//Delete data and tables
 		try {
 			database.cleanUpDB(database);
@@ -101,7 +114,7 @@ public class PDFParser {
 			// TODO Auto-generated catch block
 			e4.printStackTrace();
 		}
-		
+		*/
 		//Return skills to GUI
 		return results;
 		
