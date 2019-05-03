@@ -55,7 +55,7 @@ public class SwingApp {
 		
 		//See various text in blue for objects of GUI application
 		//Ex: Top "greeting banner" label is lblNewLabel
-		JLabel lblNewLabel = new JLabel("Welcome to the Simple Search Engine");
+		JLabel lblNewLabel = new JLabel("Welcome to the Skill Search Engine");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(6, 6, 438, 53);
 		frame.getContentPane().add(lblNewLabel);
