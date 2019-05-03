@@ -33,11 +33,11 @@ If you have any feedback or issues, feel free to contact me at mwilliams10@gwu.e
 
 ![TutorialImage3](https://github.com/bluesNbrews/SkillSearchEngine/blob/master/img/userGuide3.png)
 
-3) Enter the skill(s) to search for. Make sure the words are separated with commas and have no spaces. Note: At this point, the entire PDF is parsed and inserted into the database. 
+3) Enter the skill(s) to search for. Make sure the words are separated with commas and have no spaces. 
 
 ![TutorialImage4](https://github.com/bluesNbrews/SkillSearchEngine/blob/master/img/userGuide4.png)
 
-4) Click the 'Search' button. If the skills are present in the database, they will be displayed on the GUI.
+4) Click the 'Search' button. Note: At this point, the entire PDF is parsed and inserted into the database. If the skills are present in the database, they will be displayed on the GUI.
 
 ![TutorialImage5](https://github.com/bluesNbrews/SkillSearchEngine/blob/master/img/userGuide5.png)
 
