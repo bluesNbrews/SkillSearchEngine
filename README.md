@@ -5,7 +5,9 @@
 Creator: Steven Williams
 
 NOTE: This project is no longer supported. 
+
 WARNING: According to CVE-2019-0228, Apache PDFBox 2.0.14 does not properly initialize the XML parser, which allows context-dependent attackers to conduct XML External Entity (XXE) attacks via a crafted XFDF.
+
 Remediation: Upgrade org.apache.pdfbox:pdfbox to version 2.0.15 or later.
 
 ## Recommended Environment (to run as shown below)
