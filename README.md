@@ -59,7 +59,9 @@ If you have any feedback or issues, feel free to contact me at mwilliams10@gwu.e
 
 6) Again, if the skills are in the database, they will be displayed on the GUI. In this case, the skills 'Java' and 'Ruby' were not stored in the database. Note: There is a function (cleanUpDB) in the DataPersistence Class that will delete and drop the tables when finished. I currently am not using it in this version. 
 
+## Show your support
 
+Give a ⭐️ if this project helped you!
 
 
 
