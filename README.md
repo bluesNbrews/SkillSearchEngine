@@ -2,7 +2,13 @@
 
 # Skill Search Engine - Fully Functional PDF Parser
 
-Creator: Steven Williams
+## Creator
+
+👤 **Steven Williams**
+
+* Github: [@bluesNbrews](https://github.com/bluesNbrews)
+
+* Twitter: [@wsm9671](https://twitter.com/wsm9671)
 
 NOTE: This project is no longer supported. 
 
